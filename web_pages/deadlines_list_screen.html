@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deadlines</title>
+  </head>
+  <body>
+    <h1>Deadlines List</h1>
+    {% if items|length == 0 %}
+      <p>No deadlines yet.</p>
+    {% else %}
+      <ul>
+        {% for d in items %}
+          <li>{{ d.title }} ({{ d.course }}) - {{ d.due_date }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </body>
+</html>
