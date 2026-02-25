@@ -47,8 +47,9 @@
       {% endif %}
 
       <div class="actions">
-        <form method="get" action="/search">
-          <input type="text" name="q" placeholder="Search" />
+        <form action="/" method="GET">
+          <input type="text" name="q" value="{{ q or '' }}" placeholder="search task" />
+          <button type="submit">Search</button>
         </form>
         <button class="btn" onclick="location.href='/deadlines/new'">Create new task</button>
       </div>

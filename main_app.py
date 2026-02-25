@@ -16,11 +16,18 @@ deadlines      = db["deadlines"]
 
 @app.get("/")
 def list_deadlines():
-    items = list(deadlines.find().sort([
-    ("deadline", 1),
-    ("created_at", 1)
+    q = request.args.get("q", "").strip()
+
+    query = {}
+    if q:
+        query["title"] = {"$regex": q, "$options": "i"}
+
+    items = list(deadlines.find(query).sort([
+        ("deadline", 1),
+        ("created_at", 1)
     ]))
-    return render_template("deadlines_list_screen.html", items=items)
+
+    return render_template("deadlines_list_screen.html", items=items, q=q)
 
 @app.get("/deadlines/new")
 def new_deadline_screen():
