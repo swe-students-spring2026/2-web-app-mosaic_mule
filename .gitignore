@@ -146,8 +146,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-# Tuo additional ignorance
-.env
-.venv
-*.pyc
