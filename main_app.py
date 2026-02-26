@@ -48,5 +48,29 @@ def add_deadline():
     deadlines.insert_one(doc)
     return redirect(url_for("list_deadlines"))
 
+@app.get("/deadlines/edit/<deadline_id>")
+def edit_deadline_screen(deadline_id):
+    deadline = deadlines.find_one({"_id": ObjectId(deadline_id)})
+    return render_template("deadlines_edit_screen.html", deadline = deadline)
+
+@app.post("/deadlines/edit/<deadline_id>")
+def edit_deadline(deadline_id):
+    newTitle = request.form.get("title", "").strip()
+    newDeadline = request.form.get("deadline", "").strip()
+    if not newTitle or not newDeadline:
+        return redirect(url_for("list_deadlines"))
+    try:
+        newDeadline_dt = datetime.datetime.strptime(newDeadline, "%Y-%m-%d")
+    except ValueError:
+        return redirect(url_for("list_deadlines"))
+    
+    deadlines.update_one(
+        {"_id": ObjectId(deadline_id)},
+        {"$set": {"title": newTitle, "deadline":newDeadline_dt}}
+    )
+
+    return redirect(url_for("list_deadlines"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)

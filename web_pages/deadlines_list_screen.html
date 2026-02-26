@@ -30,7 +30,7 @@
       </div>
 
       <div class="header">
-        <div>Task</div><div>Class</div><div>Deadline</div><div>Difficulty</div>
+        <div>Task</div><div>Class</div><div>Deadline</div><div>Difficulty</div><div>Edit?</div>
       </div>
 
       {% if items|length == 0 %}
@@ -40,8 +40,9 @@
           <div class="row">
             <div class="cell-strong">{{ d.title }}</div>
             <div>{{ d.course }}</div>
-            <div>{{ d.due_date }}</div>
+            <div>{{ d.deadline }}</div>
             <div>--</div>
+            <a href="/deadlines/edit/{{ d._id}}">{{d._id}}</a>
           </div>
         {% endfor %}
       {% endif %}
