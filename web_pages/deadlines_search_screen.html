@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Deadlines</title>
+    <style>
+      body {
+        margin: 0;
+        background: #eee;
+        font-family: Arial, sans-serif;
+      }
+
+      .phone {
+        max-width: 420px;
+        margin: 0 auto;
+        background: #fff;
+        min-height: 100vh;
+        padding: 16px;
+        box-sizing: border-box;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .chip {
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        background: #f7f7f7;
+      }
+
+      .title {
+        flex: 1;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .form-wrap {
+        margin-top: 10px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .form-row label {
+        text-align: right;
+        font-size: 14px;
+      }
+
+      .form-row input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        font-size: 14px;
+        background: #fff;
+      }
+
+      .btn-group {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn {
+        width: 140px;
+        padding: 11px 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: #4f6dff;
+        color: #fff;
+      }
+
+      .btn-secondary {
+        background: #dfe4ff;
+        color: #222;
+      }
+
+      .results {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 12px;
+        background: #fafafa;
+      }
+
+      .card-title {
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      .card-meta {
+        font-size: 12px;
+        color: #444;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .pill {
+        border: 1px solid #ccc;
+        border-radius: 999px;
+        padding: 3px 8px;
+        background: #fff;
+      }
+
+      .empty {
+        margin-top: 18px;
+        text-align: center;
+        color: #555;
+        border: 1px dashed #ccc;
+        padding: 14px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="phone">
+      <div class="topbar">
+        <div class="chip">Logo</div>
+        <div class="chip title">Tasks Dashboard</div>
+        <div class="chip">Menu</div>
+      </div>
+
+      <form class="form-wrap" action="/deadlines/search" method="GET">
+        <div class="form-row">
+          <label for="q">Search:</label>
+          <input
+            type="text"
+            id="q"
+            name="q"
+            value="{{ q or '' }}"
+            placeholder="task name"
+          />
+        </div>
+
+        <div class="form-row">
+          <label for="from">From:</label>
+          <input type="date" id="from" name="from" value="{{ from_date or '' }}" />
+        </div>
+
+        <div class="form-row">
+          <label for="to">To:</label>
+          <input type="date" id="to" name="to" value="{{ to_date or '' }}" />
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">Search</button>
+          <a href="/deadlines" class="btn btn-secondary">Back</a>
+        </div>
+      </form>
+
+      {% if searched %}
+        {% if results|length == 0 %}
+          <div class="empty">No matches found</div>
+        {% else %}
+          <div class="results">
+            {% for d in results %}
+              <div class="card">
+                <div class="card-title">{{ d.title }}</div>
+                <div class="card-meta">
+                  <span class="pill">Due {{ d.deadline }}</span>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </body>
+</html>
