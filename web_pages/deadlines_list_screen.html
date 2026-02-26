@@ -37,13 +37,14 @@
         <div class="empty">No deadlines yet.</div>
       {% else %}
         {% for d in items %}
+        <a href="/deadlines/edit/{{ d._id}}">
           <div class="row">
             <div class="cell-strong">{{ d.title }}</div>
             <div>{{ d.course }}</div>
-            <div>{{ d.deadline }}</div>
+            <div>{{ d.deadline.strftime('%Y-%m-%d') }}</div>
             <div>--</div>
-            <a href="/deadlines/edit/{{ d._id}}">{{d._id}}</a>
           </div>
+        </a>
         {% endfor %}
       {% endif %}
 
