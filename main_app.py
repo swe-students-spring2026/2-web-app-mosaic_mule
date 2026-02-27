@@ -29,9 +29,12 @@ def new_deadline_screen():
 @app.route("/deadlines/add", methods=["POST"])
 def add_deadline():
     title = request.form.get("title", "").strip()
+    course = request.form.get("course", "").strip()
     deadline_str = request.form.get("deadline", "").strip()
+    difficulty = request.form.get("difficulty", "").strip()
+    description = request.form.get("description", "").strip()
 
-    if not title or not deadline_str:
+    if not title or not course or not deadline_str or not difficulty or not description:
         return redirect(url_for("list_deadlines"))
 
     try:
@@ -41,12 +44,21 @@ def add_deadline():
 
     doc = {
         "title": title,
+        "course": course,
         "deadline": deadline_dt,
-        "created_at": datetime.datetime.utcnow()
+        "created_at": datetime.datetime.utcnow(),
+        "difficulty": difficulty,
+        "description": description
     }
 
     deadlines.insert_one(doc)
     return redirect(url_for("list_deadlines"))
+
+
+@app.get("/deadlines/info/<deadline_id>")
+def info_deadline_screen(deadline_id):
+    deadline = deadlines.find_one({"_id": ObjectId(deadline_id)})
+    return render_template("deadlines_info_screen.html", deadline = deadline)
 
 @app.get("/deadlines/edit/<deadline_id>")
 def edit_deadline_screen(deadline_id):
@@ -56,8 +68,11 @@ def edit_deadline_screen(deadline_id):
 @app.post("/deadlines/edit/<deadline_id>")
 def edit_deadline(deadline_id):
     newTitle = request.form.get("title", "").strip()
+    newCourse = request.form.get("course", "").strip()
     newDeadline = request.form.get("deadline", "").strip()
-    if not newTitle or not newDeadline:
+    newDifficulty = request.form.get("difficulty", "").strip()
+    newDescription = request.form.get("description", "").strip()
+    if not newTitle or not newCourse or not newDeadline or not newDifficulty or not newDescription:
         return redirect(url_for("list_deadlines"))
     try:
         newDeadline_dt = datetime.datetime.strptime(newDeadline, "%Y-%m-%d")
@@ -66,7 +81,7 @@ def edit_deadline(deadline_id):
     
     deadlines.update_one(
         {"_id": ObjectId(deadline_id)},
-        {"$set": {"title": newTitle, "deadline":newDeadline_dt}}
+        {"$set": {"title": newTitle, "course":newCourse, "deadline":newDeadline_dt, "difficulty":newDifficulty, "description":newDescription}}
     )
 
     return redirect(url_for("list_deadlines"))
