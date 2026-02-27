@@ -86,6 +86,20 @@ def edit_deadline(deadline_id):
 
     return redirect(url_for("list_deadlines"))
 
+@app.get("/deadlines/delete/<deadline_id>")
+def delete_deadline_screen(deadline_id):
+    deadline = deadlines.find_one({"_id": ObjectId(deadline_id)})
+    if not deadline:
+        return redirect(url_for("list_deadlines"))
+    return render_template("deadlines_delete_screen.html", deadline=deadline)
+
+
+@app.post("/deadlines/delete/<deadline_id>")
+def delete_deadline(deadline_id):
+    deadlines.delete_one({"_id": ObjectId(deadline_id)})
+    return redirect(url_for("list_deadlines"))
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
