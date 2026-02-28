@@ -28,11 +28,11 @@ def new_deadline_screen():
 
 @app.route("/deadlines/add", methods=["POST"])
 def add_deadline():
-    title = request.form.get("title", "").strip()
-    course = request.form.get("course", "").strip()
+    title        = request.form.get("title", "").strip()
+    course       = request.form.get("course", "").strip()
     deadline_str = request.form.get("deadline", "").strip()
-    difficulty = request.form.get("difficulty", "").strip()
-    description = request.form.get("description", "").strip()
+    difficulty   = request.form.get("difficulty", "").strip()
+    description  = request.form.get("description", "").strip()
 
     if not title or not course or not deadline_str or not difficulty or not description:
         return redirect(url_for("list_deadlines"))
@@ -43,11 +43,11 @@ def add_deadline():
         return redirect(url_for("list_deadlines"))
 
     doc = {
-        "title": title,
-        "course": course,
-        "deadline": deadline_dt,
-        "created_at": datetime.datetime.utcnow(),
-        "difficulty": difficulty,
+        "title"      : title,
+        "course"     : course,
+        "deadline"   : deadline_dt,
+        "created_at" : datetime.datetime.utcnow(),
+        "difficulty" : difficulty,
         "description": description
     }
 
@@ -67,10 +67,10 @@ def edit_deadline_screen(deadline_id):
 
 @app.post("/deadlines/edit/<deadline_id>")
 def edit_deadline(deadline_id):
-    newTitle = request.form.get("title", "").strip()
-    newCourse = request.form.get("course", "").strip()
-    newDeadline = request.form.get("deadline", "").strip()
-    newDifficulty = request.form.get("difficulty", "").strip()
+    newTitle       = request.form.get("title", "").strip()
+    newCourse      = request.form.get("course", "").strip()
+    newDeadline    = request.form.get("deadline", "").strip()
+    newDifficulty  = request.form.get("difficulty", "").strip()
     newDescription = request.form.get("description", "").strip()
     if not newTitle or not newCourse or not newDeadline or not newDifficulty or not newDescription:
         return redirect(url_for("list_deadlines"))
