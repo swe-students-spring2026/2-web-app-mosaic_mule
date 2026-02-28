@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete Task</title>
+  </head>
+
+  <body>
+    <h2>Delete Task</h2>
+
+    <p>
+      Are you sure you want to delete
+      <strong>{{ deadline.title }}</strong>?
+    </p>
+
+    <form method="POST" action="{{ url_for('delete_deadline', deadline_id=deadline._id) }}">
+      <button type="submit">Yes, delete</button>
+      <a href="{{ url_for('list_deadlines') }}">Cancel</a>
+    </form>
+  </body>
+</html>
