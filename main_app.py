@@ -43,7 +43,21 @@ def list_deadlines():
 @app.get("/deadlines/new")
 def new_deadline_screen():
     return render_template("deadlines_add_screen.html")
+@app.get("/search")
+def search_deadlines():
+    q = request.args.get("q", "").strip()
 
+    query = {}
+    if q:
+        query["$or"] = [
+            {"title": {"$regex": q, "$options": "i"}},
+            {"course": {"$regex": q, "$options": "i"}},
+            {"difficulty": {"$regex": q, "$options": "i"}},
+            {"description": {"$regex": q, "$options": "i"}},
+        ]
+
+    items = list(deadlines.find(query).sort([("deadline", 1), ("created_at", 1)]))
+    return render_template("deadlines_search_screen.html", items=items, q=q)
 @app.route("/deadlines/add", methods=["POST"])
 def add_deadline():
     title        = request.form.get("title", "").strip()
