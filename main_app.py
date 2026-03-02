@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from bson.errors import InvalidId
 import datetime
 import os
 
@@ -51,7 +52,7 @@ def add_deadline():
     difficulty   = request.form.get("difficulty", "").strip()
     description  = request.form.get("description", "").strip()
 
-    if not title or not course or not deadline_str or not difficulty or not description:
+    if not title or not deadline_str:
         return redirect(url_for("list_deadlines"))
 
     try:
@@ -101,9 +102,33 @@ def edit_deadline(deadline_id):
     
     deadlines.update_one(
         {"_id": ObjectId(deadline_id)},
-        {"$set": {"title": newTitle, "course":newCourse, "deadline":newDeadline_dt, "difficulty":newDifficulty, "description":newDescription}}
+        {"$set": {"title": newTitle, "deadline":newDeadline_dt}}
     )
 
+    return redirect(url_for("list_deadlines"))
+
+@app.get("/deadlines/delete/<deadline_id>")
+def delete_deadline_screen(deadline_id):
+    try:
+        oid = ObjectId(deadline_id)
+    except InvalidId:
+        return redirect(url_for("list_deadlines"))
+
+    deadline = deadlines.find_one({"_id": oid})
+    if not deadline:
+        return redirect(url_for("list_deadlines"))
+
+    return render_template("deadlines_delete_screen.html", deadline=deadline)
+
+
+@app.post("/deadlines/delete/<deadline_id>")
+def delete_deadline(deadline_id):
+    try:
+        oid = ObjectId(deadline_id)
+    except InvalidId:
+        return redirect(url_for("list_deadlines"))
+
+    deadlines.delete_one({"_id": oid})
     return redirect(url_for("list_deadlines"))
 
 
