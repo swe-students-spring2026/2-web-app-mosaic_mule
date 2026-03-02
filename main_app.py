@@ -16,10 +16,27 @@ deadlines      = db["deadlines"]
 
 @app.get("/")
 def list_deadlines():
-    items = list(deadlines.find().sort([
-    ("deadline", 1),
-    ("created_at", 1)
-    ]))
+    # Default
+    sort   = request.args.get("sort", "deadline")
+    order  = request.args.get("order", "asc")
+    diffi  = request.args.get("difficulty", "")
+    course = request.args.get("course", "")
+
+    # Sort in MongDB
+    query  = {}
+    if diffi:
+        query["difficulty"] = diffi
+    if course:
+        query["course"] = course
+
+    sort_map   = {"deadline": "deadline", "created_at": "created_at", "title": "title",}
+    sort_field = sort_map.get(sort, "deadline")
+    if order == "asc":
+        sort_dir = 1
+    else: 
+        sort_dir = -1
+
+    items = list(deadlines.find(query).sort([(sort_field, sort_dir), ("created_at", 1)]))
     return render_template("deadlines_list_screen.html", items=items)
 
 @app.get("/deadlines/new")
@@ -54,6 +71,9 @@ def add_deadline():
     deadlines.insert_one(doc)
     return redirect(url_for("list_deadlines"))
 
+@app.get("/deadlines/filter")
+def deadlines_filter_screen():
+    return render_template("deadlines_filter_screen.html")
 
 @app.get("/deadlines/info/<deadline_id>")
 def info_deadline_screen(deadline_id):

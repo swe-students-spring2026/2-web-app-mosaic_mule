@@ -10,7 +10,7 @@
   <body>
     <div class="phone">
       <div class="topbar">
-        <a class="chip" href="/deadlines">Back</a>
+        <a class="chip" href="{{ url_for('list_deadlines') }}">Back</a>
         <div class="chip title">Sort / Filter</div>
         <div class="chip"></div>
       </div>
@@ -27,10 +27,10 @@
       <div class="form-wrap">
         <div class="chip">Filter (Difficulty)</div>
         <div class="btn-group">
-          <a class="btn btn-secondary" href="/deadlines?difficulty=Easy">Easy</a>
-          <a class="btn btn-secondary" href="/deadlines?difficulty=Medium">Medium</a>
-          <a class="btn btn-secondary" href="/deadlines?difficulty=Hard">Hard</a>
-          <a class="btn btn-primary" href="/deadlines">Clear</a>
+          <a class="btn btn-secondary" href="{{ url_for('list_deadlines', difficulty='Easy') }}">Easy</a>
+          <a class="btn btn-secondary" href="{{ url_for('list_deadlines', difficulty='Medium') }}">Medium</a>
+          <a class="btn btn-secondary" href="{{ url_for('list_deadlines', difficulty='Hard') }}">Hard</a>
+          <a class="btn btn-primary" href="{{ url_for('list_deadlines') }}">Clear</a>
         </div>
       </div>
     </div>
