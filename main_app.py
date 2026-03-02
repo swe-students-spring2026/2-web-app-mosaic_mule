@@ -16,10 +16,27 @@ deadlines      = db["deadlines"]
 
 @app.get("/")
 def list_deadlines():
-    items = list(deadlines.find().sort([
-    ("deadline", 1),
-    ("created_at", 1)
-    ]))
+    # Default
+    sort   = request.args.get("sort", "deadline")
+    order  = request.args.get("order", "asc")
+    diffi  = request.args.get("difficulty", "")
+    course = request.args.get("course", "")
+
+    # Sort in MongDB
+    query  = {}
+    if diffi:
+        query["difficulty"] = diffi
+    if course:
+        query["course"] = course
+
+    sort_map   = {"deadline": "deadline", "created_at": "created_at", "title": "title",}
+    sort_field = sort_map.get(sort, "deadline")
+    if order == "asc":
+        sort_dir = 1
+    else: 
+        sort_dir = -1
+
+    items = list(deadlines.find(query).sort([(sort_field, sort_dir), ("created_at", 1)]))
     return render_template("deadlines_list_screen.html", items=items)
 
 @app.get("/deadlines/new")
@@ -28,11 +45,11 @@ def new_deadline_screen():
 
 @app.route("/deadlines/add", methods=["POST"])
 def add_deadline():
-    title = request.form.get("title", "").strip()
-    course = request.form.get("course", "").strip()
+    title        = request.form.get("title", "").strip()
+    course       = request.form.get("course", "").strip()
     deadline_str = request.form.get("deadline", "").strip()
-    difficulty = request.form.get("difficulty", "").strip()
-    description = request.form.get("description", "").strip()
+    difficulty   = request.form.get("difficulty", "").strip()
+    description  = request.form.get("description", "").strip()
 
     if not title or not course or not deadline_str or not difficulty or not description:
         return redirect(url_for("list_deadlines"))
@@ -43,17 +60,20 @@ def add_deadline():
         return redirect(url_for("list_deadlines"))
 
     doc = {
-        "title": title,
-        "course": course,
-        "deadline": deadline_dt,
-        "created_at": datetime.datetime.utcnow(),
-        "difficulty": difficulty,
+        "title"      : title,
+        "course"     : course,
+        "deadline"   : deadline_dt,
+        "created_at" : datetime.datetime.utcnow(),
+        "difficulty" : difficulty,
         "description": description
     }
 
     deadlines.insert_one(doc)
     return redirect(url_for("list_deadlines"))
 
+@app.get("/deadlines/filter")
+def deadlines_filter_screen():
+    return render_template("deadlines_filter_screen.html")
 
 @app.get("/deadlines/info/<deadline_id>")
 def info_deadline_screen(deadline_id):
@@ -67,10 +87,10 @@ def edit_deadline_screen(deadline_id):
 
 @app.post("/deadlines/edit/<deadline_id>")
 def edit_deadline(deadline_id):
-    newTitle = request.form.get("title", "").strip()
-    newCourse = request.form.get("course", "").strip()
-    newDeadline = request.form.get("deadline", "").strip()
-    newDifficulty = request.form.get("difficulty", "").strip()
+    newTitle       = request.form.get("title", "").strip()
+    newCourse      = request.form.get("course", "").strip()
+    newDeadline    = request.form.get("deadline", "").strip()
+    newDifficulty  = request.form.get("difficulty", "").strip()
     newDescription = request.form.get("description", "").strip()
     if not newTitle or not newCourse or not newDeadline or not newDifficulty or not newDescription:
         return redirect(url_for("list_deadlines"))

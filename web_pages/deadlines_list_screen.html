@@ -3,52 +3,54 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tasks Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-    <style>
-      .header, .row { display:grid; grid-template-columns: 1.2fr 1fr 1fr 0.9fr; gap:8px; align-items:center; }
-      .header { margin:16px 0 8px; color:#666; font-size:12px; }
-      .row { padding:10px; border-radius:8px; margin-bottom:10px; background:#d9ffd9; }
-      .cell-strong { font-weight:700; }
-      .actions { margin-top:16px; display:flex; flex-direction:column; gap:12px; }
-      input[type="text"]{ padding:10px; border:1px solid #ccc; border-radius:8px; }
-      .btn { padding:12px; border:none; border-radius:8px; background:#4f6dff; color:#fff; font-weight:700; }
-      .empty { color:#777; text-align:center; padding:20px 0; }
-    </style>
+    <title>Deadlines List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
 
   <body>
     <div class="phone">
+      <!-- Top Bar -->
       <div class="topbar">
         <div class="chip">Logo</div>
-        <div class="chip title">Tasks Dashboard</div>
-        <div class="chip">Menu</div>
+        <div class="chip title">Deadlines List</div>
+        <a class="chip" href="/deadlines/new">+ New</a>
+        <a class="chip" href="/deadlines/filter">Sort</a>
       </div>
 
-      <div class="header">
-        <div>Task</div><div>Class</div><div>Deadline</div><div>Difficulty</div><div>Edit?</div>
-      </div>
+      <!-- Search -->
+      <form class="form-wrap" method="get" action="/search">
+        <div class="form-row">
+          <label for="q">Search</label>
+          <input id="q" type="text" name="q" placeholder="Title / Course / Difficulty / Deadline..." />
+        </div>
+      </form>
 
+      <!-- List -->
       {% if items|length == 0 %}
-        <div class="empty">No deadlines yet.</div>
+        <div class="form-wrap">
+          <div class="chip">No deadlines yet. Click “+ New” to create one.</div>
+        </div>
       {% else %}
         {% for d in items %}
-        <a href="/deadlines/info/{{ d._id}}">
-          <div class="row">
-            <div class="cell-strong">{{ d.title }}</div>
-            <div>{{ d.course }}</div>
-            <div>{{ d.deadline.strftime('%Y-%m-%d') }}</div>
-            <div>--</div>
+          <div class="form-wrap">
+            <div class="chip">
+              <div><strong>{{ d.title }}</strong></div>
+              <div>
+                <small>{{ d.course }} • {{ d.deadline.strftime('%Y-%m-%d') }}</small>
+              </div>
+
+              <div class="btn-group">
+                <a class="btn btn-primary" href="/deadlines/info/{{ d._id }}">Open</a>
+                <a class="btn btn-secondary" href="/deadlines/edit/{{ d._id }}">Edit</a>
+              </div>
+            </div>
           </div>
-        </a>
         {% endfor %}
       {% endif %}
 
-      <div class="actions">
-        <form method="get" action="/search">
-          <input type="text" name="q" placeholder="Search" />
-        </form>
-        <button class="btn" onclick="location.href='/deadlines/new'">Create new task</button>
+      <!-- Bottom Actions -->
+      <div class="btn-group">
+        <a class="btn btn-secondary" href="/">Home</a>
       </div>
     </div>
   </body>
