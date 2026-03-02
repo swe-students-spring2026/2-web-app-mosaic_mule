@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from bson.errors import InvalidId
 import datetime
 import os
 
@@ -73,17 +74,27 @@ def edit_deadline(deadline_id):
 
 @app.get("/deadlines/delete/<deadline_id>")
 def delete_deadline_screen(deadline_id):
-    deadline = deadlines.find_one({"_id": ObjectId(deadline_id)})
+    try:
+        oid = ObjectId(deadline_id)
+    except InvalidId:
+        return redirect(url_for("list_deadlines"))
+
+    deadline = deadlines.find_one({"_id": oid})
     if not deadline:
         return redirect(url_for("list_deadlines"))
+
     return render_template("deadlines_delete_screen.html", deadline=deadline)
 
 
 @app.post("/deadlines/delete/<deadline_id>")
 def delete_deadline(deadline_id):
-    deadlines.delete_one({"_id": ObjectId(deadline_id)})
-    return redirect(url_for("list_deadlines"))
+    try:
+        oid = ObjectId(deadline_id)
+    except InvalidId:
+        return redirect(url_for("list_deadlines"))
 
+    deadlines.delete_one({"_id": oid})
+    return redirect(url_for("list_deadlines"))
 
 
 if __name__ == "__main__":
