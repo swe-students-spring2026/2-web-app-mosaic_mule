@@ -5,17 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tasks Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-    <style>
-      .header, .row { display:grid; grid-template-columns: 1.2fr 1fr 1fr 0.9fr; gap:8px; align-items:center; }
-      .header { margin:16px 0 8px; color:#666; font-size:12px; }
-      .row { padding:10px; border-radius:8px; margin-bottom:10px; background:#d9ffd9; }
-      .cell-strong { font-weight:700; }
-      .actions { margin-top:16px; display:flex; flex-direction:column; gap:12px; }
-      input[type="text"]{ padding:10px; border:1px solid #ccc; border-radius:8px; }
-      .btn { padding:12px; border:none; border-radius:8px; background:#4f6dff; color:#fff; font-weight:700; }
-      .empty { color:#777; text-align:center; padding:20px 0; }
-      .card-link { text-decoration: none; color: inherit; display: block; }
-    </style>
   </head>
 
   <body>
@@ -29,7 +18,7 @@
       </div>
 
       <!-- Search -->
-      <form class="form-wrap" method="get" action="/search">
+      <form class="form-wrap" method="get" action="/search" style="display: flex; justify-content: flex-start;">
         <div class="form-row">
           <label for="q">Search</label>
           <input id="q" type="text" name="q" placeholder="Title / Course / Difficulty / Deadline..." />

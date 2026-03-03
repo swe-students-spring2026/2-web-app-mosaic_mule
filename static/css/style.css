@@ -80,6 +80,9 @@ body {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.2;
 }
 
 .btn-primary {
@@ -90,4 +93,54 @@ body {
 .btn-secondary {
     background: #dfe4ff;
     color: #222;
+}
+
+.header,
+.row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 0.9fr;
+    gap: 8px;
+    align-items: center;
+}
+
+.header {
+    margin: 16px 0 8px;
+    color: #666;
+    font-size: 12px;
+}
+
+.row {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #d9ffd9;
+}
+
+.cell-strong {
+    font-weight: 700;
+}
+
+.actions {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.empty {
+    color: #777;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }

@@ -4,19 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Delete Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
   </head>
 
   <body>
-    <h2>Delete Task</h2>
+    <div class="phone">
+      <div class="topbar">
+        <div class="chip">Logo</div>
+        <div class="chip title">{{deadline.title}}</div>
+        <div class="chip">Menu</div>
+      </div>
 
-    <p>
-      Are you sure you want to delete
-      <strong>{{ deadline.title }}</strong>?
-    </p>
+      <form class="form-wrap" method="POST" action="{{ url_for('delete_deadline', deadline_id=deadline._id) }}">
+      <p style="text-align: center;">
+        Are you sure you want to delete
+        <strong>{{ deadline.title }}</strong>?
+      </p>
 
-    <form method="POST" action="{{ url_for('delete_deadline', deadline_id=deadline._id) }}">
-      <button type="submit">Yes, delete</button>
-      <a href="{{ url_for('list_deadlines') }}">Cancel</a>
+    <div class="btn-group">
+      <button type="submit" class="btn btn-primary">Yes, Delete</button>
+      <a href="{{ url_for('list_deadlines') }}" class="btn btn-secondary">Cancel</a>
+    </div>
     </form>
+    </div>
   </body>
 </html>
