@@ -11,10 +11,8 @@
     <div class="phone">
       <!-- Top Bar -->
       <div class="topbar">
-        <div class="chip">Logo</div>
         <div class="chip title">Deadlines List</div>
-        <a class="chip" href="/deadlines/new">+ New</a>
-        <a class="chip" href="/deadlines/filter">Sort</a>
+        <a class="chip" href="/">Home</a>
       </div>
 
       <!-- Search -->
@@ -28,7 +26,7 @@
       <!-- List -->
       {% if items|length == 0 %}
         <div class="form-wrap">
-          <div class="chip">No deadlines yet. Click “+ New” to create one.</div>
+          <div class="chip">No deadlines yet. Click Add to create one.</div>
         </div>
       {% else %}
         {% for d in items %}
@@ -44,7 +42,8 @@
 
       <!-- Bottom Actions -->
       <div class="btn-group">
-        <a class="btn btn-secondary" href="/">Home</a>
+        <a class="btn btn-secondary" href="/deadlines/new">Add</a>
+        <a class="btn btn-secondary" href="/deadlines/filter">Sort</a>
       </div>
     </div>
   </body>
