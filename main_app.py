@@ -52,7 +52,7 @@ def add_deadline():
     difficulty   = request.form.get("difficulty", "").strip()
     description  = request.form.get("description", "").strip()
 
-    if not title or not deadline_str:
+    if not title or not course or not deadline_str or not difficulty or not description:
         return redirect(url_for("list_deadlines"))
 
     try:
@@ -102,7 +102,14 @@ def edit_deadline(deadline_id):
     
     deadlines.update_one(
         {"_id": ObjectId(deadline_id)},
-        {"$set": {"title": newTitle, "deadline":newDeadline_dt}}
+        {"$set": {
+            "title": newTitle, 
+            "deadline":newDeadline_dt,
+            "course": newCourse,
+            "deadline": newDeadline_dt,
+            "difficulty": newDifficulty,
+            "description": newDescription
+            }}
     )
 
     return redirect(url_for("list_deadlines"))
