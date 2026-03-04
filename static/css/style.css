@@ -106,8 +106,8 @@ body {
 
 .header,
 .row {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 0.8fr;
+    display: grid; 
+    grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr;
     gap: 12px;
     align-items: start;
     text-align: center;
@@ -133,7 +133,7 @@ body {
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 10px;
-    background: #e8ecf1;
+    background: #e4e7ea;
 }
 
 .cell-strong {
