@@ -6,7 +6,6 @@
     <title>Deadline Info</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
   </head>
-
   <body>
     <div class="phone">
       <div class="topbar">
@@ -14,15 +13,20 @@
         <a class="chip" href="/">Home</a>
       </div>
       
-      <div>{{deadline.title}}</div>
-      <div>{{deadline.course}}</div>
-      <div>{{deadline.deadline.strftime('%Y-%m-%d')}}</div>
-      <div>{{deadline.difficulty}}</div>
-      <div>{{deadline.description}}</div>
+      <div class="form-wrap">
+        <div class="row">
+          <div class="cell-strong">{{deadline.title}}</div>
+          <div>{{deadline.deadline.strftime('%Y-%m-%d')}}</div>
+          <div>{{deadline.course}}</div>
+          <div>{{deadline.difficulty}}</div>
+          <div style="grid-column: 1 / 5;">{{deadline.description}}</div>
+        </div>
+      </div>
 
       <div class="btn-group">
-          <a href="/deadlines/edit/{{deadline._id}}" class="btn btn-secondary">Edit</a>
-          <a href="{{ url_for('list_deadlines') }}" class="btn btn-secondary">Delete</a>
+          <a href="/deadlines/edit/{{deadline._id}}" class="btn btn-primary">Edit</a>
+          <a href="/deadlines/delete/{{deadline._id}}"  class="btn btn-primary">Delete</a>
+          <a href="{{ url_for('list_deadlines') }}" class="btn btn-secondary" >Back</a>
         </div>
     </div>
   </body>
