@@ -1,7 +1,7 @@
 body {
     margin: 0;
     background: #eee;
-    font-family: Arial, sans-serif;
+    font-family: Avenir, "Helvetica Neue", Arial, sans-serif;
 }
 
 .phone {
@@ -27,6 +27,13 @@ body {
     border-radius: 6px;
     font-size: 12px;
     background: #f7f7f7;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+}
+
+.chip,
+.chip:visited {
+    color: inherit;
 }
 
 .title {
@@ -50,6 +57,8 @@ body {
 .form-row label {
     text-align: right;
     font-size: 14px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
 }
 
 .form-row input {
@@ -80,14 +89,107 @@ body {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.2;
 }
 
 .btn-primary {
-    background: #4f6dff;
+    background: #7C9CCF;
     color: #fff;
 }
 
 .btn-secondary {
-    background: #dfe4ff;
+    background: #DCE6F5;
     color: #222;
+}
+
+.header,
+.row {
+    display: grid; 
+    grid-template-columns: 1.2fr 1fr 0.8fr 0.8fr;
+    gap: 12px;
+    align-items: start;
+    text-align: center;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.row div {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.header {
+    margin: 16px 0 8px;
+    color: #666;
+    font-size: 12px;
+}
+
+.row {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #e4e7ea;
+}
+
+.cell-strong {
+    font-weight: 700;
+}
+
+.actions {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.empty {
+    color: #777;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.searchsort-wrap {
+    margin-top: 10px;
+    margin-bottom: 18px;
+}
+
+.searchsort-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.searchsort-form label {
+    text-align: left;
+    font-size: 14px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+}
+
+.searchsort-form input {
+    width: 260px;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    font-size: 14px;
+    background: #fff;
 }
