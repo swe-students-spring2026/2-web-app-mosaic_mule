@@ -15,6 +15,7 @@ client         = MongoClient(os.getenv("MONGO_URI"))
 db             = client[os.getenv("MONGO_DB", "ddl_manager")]
 deadlines      = db["deadlines"]
 
+# List
 @app.get("/")
 def list_deadlines():
     # Default
@@ -40,6 +41,8 @@ def list_deadlines():
     items = list(deadlines.find(query).sort([(sort_field, sort_dir), ("created_at", 1)]))
     return render_template("deadlines_list_screen.html", items=items)
 
+# Add
+DIFFICULTY_CHOICES = {"Easy", "Medium", "Hard"}
 @app.get("/deadlines/new")
 def new_deadline_screen():
     return render_template("deadlines_add_screen.html")
@@ -66,7 +69,12 @@ def add_deadline():
     difficulty   = request.form.get("difficulty", "").strip()
     description  = request.form.get("description", "").strip()
 
+    difficulty = difficulty.capitalize()
+
     if not title or not course or not deadline_str or not difficulty or not description:
+        return redirect(url_for("list_deadlines"))
+
+    if difficulty not in DIFFICULTY_CHOICES:
         return redirect(url_for("list_deadlines"))
 
     try:
