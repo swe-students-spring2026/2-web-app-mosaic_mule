@@ -4,7 +4,7 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-See instructions. Delete this line and place the Product Vision Statement here.
+This app will be a central repository for all tasks that an individual must complete, providing overall visibility into one's workload that is usually divided between many different stores such as a college website, email, and calendar.
 
 ## User stories
 
