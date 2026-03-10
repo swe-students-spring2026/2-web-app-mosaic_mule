@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  </head>
+
+  <body>
+    <div class="phone">
+      <div class="topbar">
+        <div class="chip title">Search</div>
+        <a class="chip" href="/">Home</a>
+      </div>
+
+      <form class="form-wrap" method="get" action="/search">
+        <div class="form-row">
+          <label for="q">Search</label>
+          <input id="q" type="text" name="q" value="{{ q or '' }}" placeholder="Title / Course / Difficulty / Description" />
+        </div>
+      </form>
+
+      <div class="header">
+        <div>Task</div><div>Deadline</div><div>Class</div><div>Difficulty</div>
+      </div>
+
+      {% if items|length == 0 %}
+        <div class="empty">No matches.</div>
+      {% else %}
+        {% for d in items %}
+          <a class="card-link" href="{{ url_for('edit_deadline_screen', deadline_id=d._id) }}">
+            <div class="row">
+              <div class="cell-strong">{{ d.title }}</div>
+              <div>{{ d.deadline.strftime('%Y-%m-%d') }}</div>
+              <div>{{ d.course }}</div>
+              <div>{{ d.difficulty }}</div>
+            </div>
+          </a>
+        {% endfor %}
+      {% endif %}
+    
+      <div class="btn-group">
+        <a class="btn btn-secondary" href="{{ url_for('list_deadlines') }}">Back</a>
+      </div>
+      </div>
+  </body>
+</html>

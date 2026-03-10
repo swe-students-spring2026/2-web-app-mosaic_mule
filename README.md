@@ -39,4 +39,5 @@ Then open the app in your browser (typically): http://127.0.0.1:5000
 
 ## Task boards
 
-- Sprint task boards (GitHub Projects): https://github.com/orgs/swe-students-spring2026/projects/33
+- Sprint 1 task boards (GitHub Projects): https://github.com/orgs/swe-students-spring2026/projects/33
+- Sprint 2 task boards (GitHub Projects):https://github.com/orgs/swe-students-spring2026/projects/78
